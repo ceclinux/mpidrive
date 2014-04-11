@@ -1,0 +1,9 @@
+<!doctype html>
+<title>Directory</title>
+{% for file in files %}
+{% if file.isDirectory  %}
+<h1><a href="{{file.filename}}">{{ file.filename }}</a></h1>
+{% else %}
+<h3><a href="/f/{{file.filename}}">{{ file.filename }}</a></h3>
+{% endif %}
+{% endfor %}
