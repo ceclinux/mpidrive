@@ -18,19 +18,19 @@ MY_NAME = "ceclinux"
 REMOTE_NAME = "ipm.edu.mo"
 PORT = 445
 
-conn = SMBConnection(USERNAME, PASSWORD, USERNAME, REMOTE_NAME, use_ntlm_v2=False)
-assert conn.connect(SERVER_IP, PORT)
-
 app = Flask(__name__)
 
 
 #如果是文件那么就下载
 @app.route('/f/<path:filename>')
 def show_file(filename):
+    conn = SMBConnection(USERNAME, PASSWORD, MY_NAME, REMOTE_NAME, use_ntlm_v2=False)
+    conn.connect(SERVER_IP, PORT)
     #This module implements a file-like class, StringIO, that reads and writes a string buffer (also known as memory files). See the description of file objects for operations (section File Objects). (For standard strings, see str and unicode.)
     temp_fh = StringIO()
 #file_obj  A file-like object that has a write method. Data will be written continuously to file_obj until EOF is received from the remote service. In Python3, this file-like object must have a write method which accepts a bytes parameter.
     file_attributes, filesize = conn.retrieveFile('Share', '/ESAP/Hand-Out/' + filename, temp_fh)
+    conn.close()
     #读取文件名字
     localfile = filename.split('/')[-1]
 #存到服务器
@@ -54,7 +54,10 @@ def render(files=None):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def show_dir(path):
+    conn = SMBConnection(USERNAME, PASSWORD, MY_NAME, REMOTE_NAME, use_ntlm_v2=False)
+    conn.connect(SERVER_IP, PORT)
     re = conn.listPath('Share',  os.path.join('/ESAP/Hand-Out/', path))
+    conn.close()
     for i in re:
         i.link = os.path.join(path, i.filename)
     return render_template('hello.html', files=re)

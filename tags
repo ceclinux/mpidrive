@@ -14,7 +14,6 @@ app	connecto.py	/^app = Flask(__name__)$/;"	v
 author	setup.py	/^    author='Ceclinux',$/;"	v
 author_email	setup.py	/^    author_email='src655@gmail.com',$/;"	v
 cfg	connecto.py	/^cfg = ConfigParser.ConfigParser()$/;"	v
-conn	connecto.py	/^conn = SMBConnection(USERNAME, PASSWORD, USERNAME, REMOTE_NAME, use_ntlm_v2=False)$/;"	v
 description	setup.py	/^    description='utilitiy for accessing mpi odrive',$/;"	v
 py_modules	setup.py	/^    py_modules=['connecto'],$/;"	v
 render	connecto.py	/^def render(files=None):$/;"	f
